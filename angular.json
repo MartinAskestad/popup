@@ -1,0 +1,147 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "popup": {
+      "root": "projects/popup/",
+      "sourceRoot": "projects/popup/src",
+      "projectType": "application",
+      "prefix": "app",
+      "schematics": {},
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/popup",
+            "index": "projects/popup/src/index.html",
+            "main": "projects/popup/src/main.ts",
+            "polyfills": "projects/popup/src/polyfills.ts",
+            "tsConfig": "projects/popup/tsconfig.app.json",
+            "assets": [
+              "projects/popup/src/favicon.ico",
+              "projects/popup/src/assets"
+            ],
+            "styles": [
+              "projects/popup/src/styles.css"
+            ],
+            "scripts": [
+              {
+                "input": "node_modules/document-register-element/build/document-register-element.js"
+              }
+            ],
+            "es5BrowserSupport": true
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/popup/src/environments/environment.ts",
+                  "with": "projects/popup/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "popup:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "popup:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "popup:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/popup/src/test.ts",
+            "polyfills": "projects/popup/src/polyfills.ts",
+            "tsConfig": "projects/popup/tsconfig.spec.json",
+            "karmaConfig": "projects/popup/karma.conf.js",
+            "styles": [
+              "projects/popup/src/styles.css"
+            ],
+            "scripts": [],
+            "assets": [
+              "projects/popup/src/favicon.ico",
+              "projects/popup/src/assets"
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/popup/tsconfig.app.json",
+              "projects/popup/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "ng-popup": {
+      "root": "projects/ng-popup",
+      "sourceRoot": "projects/ng-popup/src",
+      "projectType": "library",
+      "prefix": "popup",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/ng-popup/tsconfig.lib.json",
+            "project": "projects/ng-popup/ng-package.json"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/ng-popup/src/test.ts",
+            "tsConfig": "projects/ng-popup/tsconfig.spec.json",
+            "karmaConfig": "projects/ng-popup/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/ng-popup/tsconfig.lib.json",
+              "projects/ng-popup/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "defaultProject": "ng-popup"
+}
